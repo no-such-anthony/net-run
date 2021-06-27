@@ -8,4 +8,4 @@ A micro Nornir/Ansible like automation poc tool.  Uses Netmiko 4.
 As this is just a proof of concept example there is no docco or unit testing.  Still a lot of improvements to be done with the taskbook implementation.
 
 Example usage
-- python net-starter.py --device r2 --taskbook first1
+- python net-run.py --device r2 --taskbook first1

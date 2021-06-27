@@ -1,6 +1,6 @@
 # net-run
 
-A micro Nornir/Ansible like automation poc tool built to experiment with Netmiko 4.
+A micro Nornir/Ansible like automation poc tool.  Uses Netmiko 4.
 
 - Inventory (inc inheritance) and threading are similar to Nornir.
 - The tasks in a taskbook are similar to Ansible Playbook but in a Python array.

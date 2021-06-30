@@ -32,9 +32,7 @@ def remerge(target_list, sourced=False):
             # lists are purely additive. See https://github.com/mahmoud/boltons/issues/81
             #new_parent.extend(value)
             # modifed to extend at start rather than end, 
-            # and maybe try to remove duplicates in correct order? Hope it works...
             new_parent = value + new_parent
-            new_parent = list(dict.fromkeys(new_parent))
             new_items = []
 
         return new_parent, new_items

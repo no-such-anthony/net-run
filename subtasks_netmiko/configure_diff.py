@@ -31,15 +31,15 @@ def configure_diff(device, configuration=None, **kwargs):
     if configuration:
         # get running config as dict
 
-        config_pre = device['netmiko'].send_command('show run')
+        config_pre = device['nc'].send_command('show run')
         config_pre = config_filter_cisco_ios(config_pre)
         config_pre = config_pre.split('\n')
 
         # deploy
-        result = device['netmiko'].send_config_set(configuration)
+        result = device['nc'].send_config_set(configuration)
 
         # get running config as dict
-        config_post = device['netmiko'].send_command('show run')
+        config_post = device['nc'].send_command('show run')
         config_post = config_filter_cisco_ios(config_post)
         config_post = config_post.split('\n')
 

@@ -6,20 +6,29 @@
 
 import argparse
 import sys
-import importlib
-from pprint import pprint
+from datetime import datetime
 
 from inventory import get_inventory
+from utils import cl_filter
+from utils import tasks_import
+from utils import print_output
+
 from runners import WithThreadPool
-from nm_task import nm_task
+from task_netmiko import task_netmiko
+
+import asyncio
+from runners_async import withSemaphore
+from task_scrapli import task_scrapli
 
 
-# Using netmiko 4 devel
+# Using netmiko 4 devel and async scrapli
+#
 # pip install git+https://github.com/ktbyers/netmiko.git@develop
+#
+# pip install scrapli
+# pip install asyncssh
+# pip install scrapli_community
 
-#import logging
-#logging.basicConfig(filename='test.log', level=logging.DEBUG)
-#logger = logging.getLogger("netmiko")
 
 def main(args):
 
@@ -28,43 +37,62 @@ def main(args):
     #pprint(inventory)
     #sys.exit()
     
-    # filter devices with any command-line arguments used
-    if args.device:
-        inventory = { k:v for (k,v) in inventory.items() if k in args.device }
+    # command line filtering
+    inventory = cl_filter(inventory, args)
 
-    if args.group:
-        inventory = { k:v for (k,v) in inventory.items() if any(x in v['groups'] for x in args.group) }
+    # tasks import
+    tasks = tasks_import(args.taskbook)
 
-    if args.role:
-        inventory = { k:v for (k,v) in inventory.items() if any(x in v['roles'] for x in args.role) }
+    # start timer
+    start_time = datetime.now()
 
     # Load task runner
     runner = WithThreadPool(4)
 
-    tasks = importlib.import_module(f"taskbooks.{args.taskbook}").tasks
-    if not isinstance(tasks, list):
-        print('Tasks should be a list.')
-        sys.exit()
-
     # You can also send additional arguments which will be passed to the task        
-    output = runner.run(nm_task, name="Run example tasks", inventory=inventory, tasks=tasks)
+    output = runner.run(task_netmiko, name="Run example tasks", inventory=inventory, tasks=tasks)
 
-    # Print task results
-    print(f"Task = {output['task']}")
-    
-    for device, task_output in sorted(output['devices'].items()):
-        print('='*20,f"Results for {device}",'='*20)
-        if 'exception' not in task_output:
-            # if no exception in main loop we should have a dictionary
-            for k,v in task_output['result'].items():
-                print('-'*len(k))
-                print(k)
-                print('-'*len(k))
-                print(v['result'])
-                print()
-        else:
-            print(task_output['result'])
-    print()
+    #stop timer
+    elapsed_time = datetime.now() - start_time
+
+    # Print task results 
+    print_output(output)
+
+    print('-'*50)
+    print("Elapsed time: {}".format(elapsed_time))
+
+
+
+async def async_main(args):
+
+    # load inventory
+    inventory = get_inventory()
+    #pprint(inventory)
+    #sys.exit()
+
+    # command line filtering
+    inventory = cl_filter(inventory, args)
+
+    # tasks import
+    tasks = tasks_import(args.taskbook)
+
+    # start timer
+    start_time = datetime.now()
+
+    # Load task runner
+    runner = withSemaphore(4)
+
+    # You can also send additional arguments which will be passed to the task 
+    output = await runner.run(task_scrapli, name="Run example tasks", inventory=inventory, tasks=tasks)
+
+    #stop timer
+    elapsed_time = datetime.now() - start_time
+
+    # Print task results 
+    print_output(output)
+
+    print('-'*50)
+    print("Elapsed time: {}".format(elapsed_time))
 
 
 if __name__ == "__main__":
@@ -73,6 +101,10 @@ if __name__ == "__main__":
     parser.add_argument('--group', type=str, nargs='+', required=False)
     parser.add_argument('--role', type=str, nargs='+', required=False)
     parser.add_argument('--taskbook', type=str, required=True)
+    parser.add_argument('--async', dest='do_async', action='store_true')
     args = parser.parse_args()
 
-    main(args)
+    if args.do_async:
+        asyncio.run(async_main(args))
+    else:
+        main(args)

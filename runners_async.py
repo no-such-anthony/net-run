@@ -26,7 +26,6 @@ class withSemaphore(object):
         result = await asyncio.gather(*coroutines)
 
         #fix the data so it matches schema that print_output is expecting
-        #results['devices'] = { k['device']:k for k in result }
         results['devices'] = result
 
         return results

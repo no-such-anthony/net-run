@@ -24,8 +24,7 @@ class withSemaphore(object):
             for device in inventory.values()
             ]
         result = await asyncio.gather(*coroutines)
-
-        #fix the data so it matches schema that print_output is expecting
+        
         results['devices'] = result
 
         return results

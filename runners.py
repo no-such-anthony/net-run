@@ -32,12 +32,12 @@ class WithThreadPool(object):
         kwargs['task'] = task
         results = {}
         results['task'] = name or task.__name__
-        results['devices'] = {}
+        results['devices'] = []
 
         with ThreadPoolExecutor(max_workers=self.num_workers) as pool:
             futures = {pool.submit(task_wrapper, device=device, **kwargs): device for device in inventory.values()}
             for future in as_completed(futures):
                 worker_result = future.result()
-                results['devices'][worker_result['device']] = worker_result
+                results['devices'].append(worker_result)
 
         return results

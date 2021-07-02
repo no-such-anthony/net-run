@@ -15,7 +15,7 @@ class withSemaphore(object):
         kwargs['task'] = task
         results = {}
         results['task'] = name or task.__name__
-        results['devices'] = {}
+        results['devices'] = []
 
         semaphore = asyncio.Semaphore(self.num_workers)
 
@@ -26,7 +26,8 @@ class withSemaphore(object):
         result = await asyncio.gather(*coroutines)
 
         #fix the data so it matches schema that print_output is expecting
-        results['devices'] = { k['device']:k for k in result }
+        #results['devices'] = { k['device']:k for k in result }
+        results['devices'] = result
 
         return results
 

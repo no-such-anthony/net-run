@@ -1,5 +1,5 @@
 import importlib
-
+import sys
 
 def cl_filter(inventory, args):
     # filter devices with any command-line arguments used
@@ -27,17 +27,18 @@ def print_output(output):
 
     # Print task results
     print(f"Task = {output['task']}")
-    
-    for device, task_output in sorted(output['devices'].items()):
-        print('='*20,f"Results for {device}",'='*20)
-        if 'exception' not in task_output:
+
+    for result in sorted(output['devices'], key=lambda k: k['device']):
+        print('='*20,f"Results for {result['device']}",'='*20)
+        if 'exception' not in result:
             # if no exception in main loop we should have a dictionary
-            for k,v in task_output['result'].items():
+            for k,v in result['result'].items():
                 print('-'*len(k))
                 print(k)
                 print('-'*len(k))
                 print(v['result'])
                 print()
         else:
-            print(task_output['result'])
+            print(result['result'])
     print()
+

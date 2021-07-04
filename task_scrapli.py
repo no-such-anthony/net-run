@@ -25,12 +25,9 @@ async def task_scrapli(device, **kwargs):
     device['nc'] = remote_conn
 
     for task in tasks:
-        # inject ret as run_dict in case you wanted to use the output from previous subtasks.
-        # kind of like ansible register but automatic and accessible in subtasks functions with
-        # run_dict = kwargs.pop('run_dict', {})
-        # basic_command = run_dict.get('basic_command', {})
-        # where basic_command is also a dict with result as a key
-        task['kwargs']['run_dict'] = output
+        # inject output as run_output into kwargs case you need the output from previous subtasks.
+        # eg run_output = kwargs.pop('run_output', [])
+        task['kwargs']['run_output'] = output
 
         # run subtask
         output.append(await task_wrapper(task=task['function'], device=device, **task['kwargs']))

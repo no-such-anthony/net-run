@@ -4,10 +4,6 @@ from netmiko import ConnectHandler
 #task_wrapper also comes in handy for handling subtasks if you decide to use them
 from runners import task_wrapper
 
-def nc_connector(device, method):
-    nc = ConnectHandler(**device[method])
-    return nc
-
 
 # The primary task
 def task_netmiko(device, **kwargs):

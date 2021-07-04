@@ -41,6 +41,22 @@ hosts = {
             },
             'groups': ['group3','group1'],
             'roles': ['roleB'],
+        },
+        'r5': {
+           'netmiko-ssh': {
+                'host': 'r5'
+            }, 
+            'scrapli-asyncssh': {
+                'host': 'r5'
+            },
+        },
+        'r6': {
+           'netmiko-ssh': {
+                'host': 'r6'
+            }, 
+            'scrapli-asyncssh': {
+                'host': 'r6'
+            },
         }
         }
 

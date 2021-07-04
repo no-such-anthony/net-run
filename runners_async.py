@@ -9,7 +9,7 @@ class withSemaphore(object):
     def __init__(self, num_workers: int = 20) -> None:
         self.num_workers = num_workers
 
-    async def run(self, task, name=None, inventory=None, **kwargs):
+    def run(self, task, name=None, inventory=None, **kwargs):
 
         # inject positional argument 'task' into kwargs for use in task
         kwargs['task'] = task
@@ -17,13 +17,18 @@ class withSemaphore(object):
         results['task'] = name or task.__name__
         results['devices'] = []
 
+        loop = asyncio.get_event_loop()
+
         semaphore = asyncio.Semaphore(self.num_workers)
 
         coroutines = [
             task_wrapper_with_semaphore(semaphore, device=device, **kwargs)
             for device in inventory.values()
             ]
-        result = await asyncio.gather(*coroutines)
+
+        result = loop.run_until_complete(asyncio.gather(*coroutines))
+
+        loop.close()
         
         results['devices'] = result
 

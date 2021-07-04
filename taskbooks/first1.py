@@ -1,13 +1,15 @@
+from task_netmiko import task_netmiko
 import subtasks_netmiko
 import random
 
-# A task list helps with experimentating.
-# With the side effect that it kind of looks like an ansible playbook...
+taskbook = {}
+taskbook['master_task'] = task_netmiko
+
 tasks = [
         {
             'name': 'basic_command',
             'function': subtasks_netmiko.basic_command,
-            'kwargs': { 'command' : 'show version | inc uptime'}
+            'kwargs': { 'command' : 'show version | i uptime'}
         },
         {
             'name': 'multiline_command',
@@ -59,4 +61,6 @@ tasks = [
         },
         ]
 
-#tasks = [tasks[0]]
+tasks = [tasks[0]]
+
+taskbook['tasks'] = tasks

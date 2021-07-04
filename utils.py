@@ -15,12 +15,12 @@ def cl_filter(inventory, args):
     return inventory
 
 
-def tasks_import(taskbook):
-    tasks = importlib.import_module(f"taskbooks.{taskbook}").tasks
-    if not isinstance(tasks, list):
-        print('Tasks should be a list.')
+def import_taskbook(taskbook):
+    taskbook_dict = importlib.import_module(f"taskbooks.{taskbook}").taskbook
+    if not isinstance(taskbook_dict, dict):
+        print('Taskbook should be a dictionary.')
         sys.exit()
-    return tasks
+    return taskbook_dict
 
 
 def print_output(output):

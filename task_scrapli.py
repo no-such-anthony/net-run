@@ -13,7 +13,7 @@ async def task_scrapli(device, **kwargs):
     # pop out any additional kwargs you may have passed
     #example = kwargs.pop('example', [])
 
-    tasks = kwargs.pop('tasks', [])
+    taskbook = kwargs.pop('taskbook', {})
 
     # will return a dictionary
     output = {}
@@ -23,7 +23,7 @@ async def task_scrapli(device, **kwargs):
 
         device['nc'] = remote_conn
 
-        for task in tasks:
+        for task in taskbook['tasks']:
             # inject ret as run_dict in case you wanted to use the output from previous subtasks.
             # kind of like ansible register but automatic and accessible in subtasks functions with
             # run_dict = kwargs.pop('run_dict', {})

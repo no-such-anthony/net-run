@@ -7,10 +7,10 @@ A micro Nornir/Ansible like automation poc tool.  Uses Netmiko 4 SSH or Scrapli 
 
 As this is just a proof of concept example there is no docco or unit testing.  
 
-There is more work be done with the taskbook idea.  Easy to remove if not being used.
+There is more work be done with the taskbook idea.
 
 Example usage for Netmiko
-- python net-run.py --taskbook first1 --device r1 --role roleA
+- python net-run.py --taskbook first1 --device r1 r3 --role roleA
 
 Example usage for Scrapli
-- python net-run.py --async --taskbook async1 --device r2 --group group2
+- python net-run.py --taskbook async1 --device r2 r4 --group group2

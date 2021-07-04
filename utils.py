@@ -1,5 +1,6 @@
 import importlib
 import sys
+from pprint import pprint
 
 def cl_filter(inventory, args):
     # filter devices with any command-line arguments used
@@ -31,13 +32,19 @@ def print_output(output):
     for result in sorted(output['devices'], key=lambda k: k['device']):
         print('='*20,f"Results for {result['device']}",'='*20)
         if 'exception' not in result:
-            # if no exception in main loop we should have a dictionary
-            for k,v in result['result'].items():
-                print('-'*len(k))
-                print(k)
-                print('-'*len(k))
-                print(v['result'])
-                print()
+            # if no exception in main loop we should have a dictionary or a list of dictionaries
+            # each containing a 'result'
+            if isinstance(result['result'], list):
+                for r in result['result']:
+                    print('-'*len(r['task']))
+                    print(r['task'])
+                    print('-'*len(r['task']))
+                    print(r['result'])
+                    print()
+            elif isinstance(result['result'], dict):
+                print(result['result']['result']) # definitely needs improvement!
+            else:
+                print(result['result'])    
         else:
             print(result['result'])
     print()

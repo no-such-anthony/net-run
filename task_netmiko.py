@@ -4,6 +4,10 @@ from netmiko import ConnectHandler
 #task_wrapper also comes in handy for handling subtasks if you decide to use them
 from runners import task_wrapper
 
+def nc_connector(device, method):
+    nc = ConnectHandler(**device[method])
+    return nc
+
 
 # The primary task
 def task_netmiko(device, **kwargs):
@@ -11,31 +15,29 @@ def task_netmiko(device, **kwargs):
     # pop out any additional kwargs you may have passed
     #example = kwargs.pop('example', [])
 
-    taskbook = kwargs.pop('taskbook', {})
+    tasks = kwargs.pop('tasks', [])
 
     # will return a dictionary
-    output = {}
+    output = []
 
     # connect to device
-    with ConnectHandler(**device['netmiko-ssh']) as remote_conn:
+    remote_conn = ConnectHandler(**device['netmiko-ssh'])
 
-        device['nc'] = remote_conn
+    device['nc'] = remote_conn
 
-        for task in taskbook['tasks']:
-            # inject ret as run_dict in case you wanted to use the output from previous subtasks.
-            # kind of like ansible register but automatic and accessible in subtasks functions with
-            # run_dict = kwargs.pop('run_dict', {})
-            # basic_command = run_dict.get('basic_command', {})
-            # where basic_command is also a dict with result as a key
-            task['kwargs']['run_dict'] = output
+    for task in tasks:
+        # inject output as run_output into kwargs case you need the output from previous subtasks.
+        # eg run_output = kwargs.pop('run_output', [])
+        task['kwargs']['run_output'] = output
 
-            # run subtask
-            output[task['name']] = task_wrapper(task=task['function'], device=device, **task['kwargs'])
+        # run subtask
+        output.append(task_wrapper(task=task['function'], device=device, **task['kwargs']))
 
-            # subtasks may return an 'exception', as we are using task_wrapper,
-            # or you could add a 'failed' key in the return output of a subtask
-            # you could choose to break out of this task loop here
-            # instead of continuing through the remaining subtasks
+        # subtasks may return an 'exception', as we are using task_wrapper,
+        # or you could add a 'failed' key in the return output of a subtask
+        # you could choose to break out of this task loop here
+        # instead of continuing through the remaining subtasks
 
+    remote_conn.disconnect()
 
     return output

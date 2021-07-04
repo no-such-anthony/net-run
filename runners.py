@@ -8,6 +8,7 @@ def task_wrapper(**kwargs):
     device = kwargs.pop('device', None)
     result = {}
     result['device'] = device['name']
+    result['task'] = task.__name__
 
     try:
         result['result'] = task(device, **kwargs)

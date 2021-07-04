@@ -3,7 +3,7 @@ import subtasks_netmiko
 import random
 
 taskbook = {}
-taskbook['master_task'] = task_netmiko
+taskbook['primary_task'] = task_netmiko
 
 tasks = [
         {
@@ -61,6 +61,7 @@ tasks = [
         },
         ]
 
-tasks = [tasks[0]]
+tasks = [tasks[0],tasks[3]]
 
-taskbook['tasks'] = tasks
+taskbook['kwargs'] = {}
+taskbook['kwargs']['tasks'] = tasks

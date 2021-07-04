@@ -38,7 +38,7 @@ def main(args):
 
     # tasks import
     taskbook = import_taskbook(args.taskbook)
-    master_task = taskbook.pop('master_task', None)
+    primary_task = taskbook.pop('primary_task', None)
     use_async = taskbook.pop('async', False)
 
     # start timer
@@ -53,7 +53,7 @@ def main(args):
         runner = WithThreadPool(10)
 
     # You can also send additional arguments which will be passed to the task        
-    output = runner.run(master_task, name="Run example tasks", inventory=inventory, taskbook=taskbook)
+    output = runner.run(primary_task, name="Run example tasks", inventory=inventory, **taskbook.get('kwargs',{}))
 
     #stop timer
     elapsed_time = datetime.now() - start_time

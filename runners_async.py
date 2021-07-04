@@ -42,6 +42,7 @@ async def task_wrapper_with_semaphore(semaphore, **kwargs):
 
     result = {}
     result['device'] = device['name']
+    result['task'] = task.__name__
 
     async with semaphore:
         try:
@@ -59,6 +60,7 @@ async def task_wrapper(**kwargs):
     device = kwargs.pop('device', None)
     result = {}
     result['device'] = device['name']
+    result['task'] = task.__name__
 
     try:
         result['result'] = await task(device, **kwargs)

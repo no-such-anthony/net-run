@@ -4,7 +4,7 @@ import random
 
 taskbook = {}
 taskbook['async'] = True
-taskbook['master_task'] = task_scrapli
+taskbook['primary_task'] = task_scrapli
 
 tasks = [
         {
@@ -17,5 +17,5 @@ tasks = [
 
 #tasks = [tasks[0],tasks[5]]
 
-
-taskbook['tasks'] = tasks
+taskbook['kwargs'] = {}
+taskbook['kwargs']['tasks'] = tasks

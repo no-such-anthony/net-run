@@ -24,6 +24,24 @@ def import_taskbook(taskbook):
     return taskbook_dict
 
 
+def import_primary_task(primary_task):
+    p, m = primary_task.rsplit('.', 1)
+    mod = importlib.import_module(p)
+    return getattr(mod, m)
+
+
+def import_if_req(tasks):
+    for task in tasks:
+        if isinstance(task['function'], str):
+            p, m = task['function'].rsplit('.', 1)
+            mod = importlib.import_module(p)
+            task['function'] = getattr(mod, m)
+        if not callable(task['function']):
+            print('Subtasks in the task list should be callables.')
+            sys.exit()
+    return tasks
+
+
 def print_output(output):
 
     # Print task results

@@ -9,7 +9,7 @@ import sys
 from datetime import datetime
 
 from inventory import get_inventory
-from utils import cl_filter
+from utils import cl_filter, import_primary_task, import_if_req
 from utils import import_taskbook
 from utils import print_output
 
@@ -38,8 +38,17 @@ def main(args):
 
     # tasks import
     taskbook = import_taskbook(args.taskbook)
-    primary_task = taskbook.pop('primary_task', None)
     use_async = taskbook.pop('async', False)
+
+    primary_task = taskbook.pop('primary_task', None)
+    if isinstance(primary_task, str):
+        primary_task = import_primary_task(primary_task)
+    if not callable(primary_task):
+        print('Primary Task should be a callable.')
+        sys.exit()
+
+    if 'tasks' in taskbook['kwargs']:
+        taskbook['kwargs']['tasks'] = import_if_req(taskbook['kwargs']['tasks'])
 
     # start timer
     start_time = datetime.now()

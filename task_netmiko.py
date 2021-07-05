@@ -36,4 +36,8 @@ def task_netmiko(device, **kwargs):
 
     remote_conn.disconnect()
 
+    # if required  you want you can change output to a dict with at least a 'result' key, or str/int,
+    # or append another dict with at least 'result' and 'task' keys.
+    # eg output.append({'task':'Final','result': 'Complete.'})
+
     return output

@@ -47,8 +47,9 @@ def main(args):
         print('Primary Task should be a callable.')
         sys.exit()
 
-    if 'tasks' in taskbook['kwargs']:
-        taskbook['kwargs']['tasks'] = import_if_req(taskbook['kwargs']['tasks'])
+    if 'kwargs' in taskbook:
+        if 'tasks' in taskbook['kwargs']:
+            taskbook['kwargs']['tasks'] = import_if_req(taskbook['kwargs']['tasks'])
 
     # start timer
     start_time = datetime.now()

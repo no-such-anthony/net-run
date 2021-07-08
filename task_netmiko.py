@@ -1,5 +1,4 @@
-from netmiko import ConnectHandler
-#from netmiko import NetmikoTimeoutException, NetmikoAuthenticationException
+from conn_netmiko import conn_netmiko
 
 #task_wrapper also comes in handy for handling subtasks if you decide to use them
 from runners import task_wrapper
@@ -17,9 +16,7 @@ def task_netmiko(device, **kwargs):
     output = []
 
     # connect to device
-    remote_conn = ConnectHandler(**device['netmiko-ssh'])
-
-    device['nc'] = remote_conn
+    device['nc'] = conn_netmiko(device)
 
     for task in tasks:
         # inject output as run_output into kwargs case you need the output from previous subtasks.
@@ -34,7 +31,7 @@ def task_netmiko(device, **kwargs):
         # you could choose to break out of this task loop here
         # instead of continuing through the remaining subtasks
 
-    remote_conn.disconnect()
+    device['nc'].disconnect()
 
     # if required  you want you can change output to a dict with at least a 'result' key, or str/int,
     # or append another dict with at least 'result' and 'task' keys.

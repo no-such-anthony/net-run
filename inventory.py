@@ -9,14 +9,21 @@ hosts = {
             'scrapli-asyncssh': {
                 'host': 'r1'
             },
+            'scrapli-ssh': {
+                'host': 'r1'
+            },
             'groups': ['group1','group3'],
             'roles': ['roleA'],
         },
         'r2': {
            'netmiko-ssh': {
-                'host': 'r2'
+                'host': 'r2',
+                'password': 'dummy'
             }, 
             'scrapli-asyncssh': {
+                'host': 'r2'
+            },
+            'scrapli-ssh': {
                 'host': 'r2'
             },
             'groups': ['group3','group1'],
@@ -29,6 +36,9 @@ hosts = {
             'scrapli-asyncssh': {
                 'host': 'r3'
             },
+            'scrapli-ssh': {
+                'host': 'r3'
+            },
             'groups': ['group1','group3'],
             'roles': ['roleA'],
         },
@@ -37,6 +47,9 @@ hosts = {
                 'host': 'r4'
             }, 
             'scrapli-asyncssh': {
+                'host': 'r4'
+            },
+            'scrapli-ssh': {
                 'host': 'r4'
             },
             'groups': ['group3','group1'],
@@ -49,12 +62,18 @@ hosts = {
             'scrapli-asyncssh': {
                 'host': 'r5'
             },
+            'scrapli-ssh': {
+                'host': 'r5'
+            },
         },
         'r6': {
            'netmiko-ssh': {
                 'host': 'r6'
             }, 
             'scrapli-asyncssh': {
+                'host': 'r6'
+            },
+            'scrapli-ssh': {
                 'host': 'r6'
             },
         }
@@ -91,6 +110,19 @@ defaults = {
         "transport": "asyncssh",
         "auth_strict_key": False,
         "ssh_config_file": '/workspace/vagrant/.ssh/config'
+    },
+    'scrapli-ssh': {
+        "auth_username": 'fred',
+        "auth_password": 'bedrock',
+        "platform": "cisco_iosxe",
+        "transport": "ssh2",
+        "auth_strict_key": False,
+        "ssh_config_file": '/workspace/vagrant/.ssh/config'
+    },
+    'alt_creds': {
+        'username': 'fred',
+        'password': 'bedrock',
+        'secret': ''
     }
 }
 #had to set an ssh config file for scrapli as asyncssh couldn't negotiate encryption with the old GNS3 Dynamips image in my lab

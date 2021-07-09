@@ -31,6 +31,7 @@ def import_primary_task(primary_task):
 
 
 def import_if_req(tasks):
+    #todo: need to check if already loaded, if so skip
     for task in tasks:
         if isinstance(task['function'], str):
             p, m = task['function'].rsplit('.', 1)

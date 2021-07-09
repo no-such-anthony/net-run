@@ -1,22 +1,25 @@
-from conn_netmiko import conn_netmiko
+from connections import get_connection, close_connection
 
 #task_wrapper also comes in handy for handling subtasks if you decide to use them
 from runners import task_wrapper
 
 
 # The primary task
-def task_netmiko(device, **kwargs):
+def task_default(device, **kwargs):
 
     # pop out any additional kwargs you may have passed
     #example = kwargs.pop('example', [])
 
     tasks = kwargs.pop('tasks', [])
+    connection_type = kwargs.pop('connection_type', '')
+    connection_key = kwargs.pop('connection_key', '')
+
 
     # will return a dictionary
     output = []
 
     # connect to device
-    device['nc'] = conn_netmiko(device)
+    device['nc'] = get_connection(device, connection_type, connection_key)
 
     for task in tasks:
         # inject output as run_output into kwargs case you need the output from previous subtasks.
@@ -31,7 +34,7 @@ def task_netmiko(device, **kwargs):
         # you could choose to break out of this task loop here
         # instead of continuing through the remaining subtasks
 
-    device['nc'].disconnect()
+    close_connection(device['nc'], connection_type)
 
     # if required  you want you can change output to a dict with at least a 'result' key, or str/int,
     # or append another dict with at least 'result' and 'task' keys.

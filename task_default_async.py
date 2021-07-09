@@ -1,6 +1,5 @@
-import asyncio
+from connections_async import get_connection, close_connection
 
-from scrapli import AsyncScrapli
 #from scrapli.exceptions import ScrapliException
 
 #task_wrapper also comes in handy for handling subtasks
@@ -8,21 +7,20 @@ from runners_async import task_wrapper
 
 
 # The primary task
-async def task_scrapli(device, **kwargs):
+async def task_default(device, **kwargs):
 
     # pop out any additional kwargs you may have passed
     #example = kwargs.pop('example', [])
 
     tasks = kwargs.pop('tasks', [])
+    connection_type = kwargs.pop('connection_type', '')
+    connection_key = kwargs.pop('connection_key', '')
 
     # will return a dictionary
     output = []
 
     # connect to device
-    remote_conn = AsyncScrapli(**device['scrapli-asyncssh'])
-    await remote_conn.open()
-
-    device['nc'] = remote_conn
+    device['nc'] = await get_connection(device, connection_type, connection_key)
 
     for task in tasks:
         # inject output as run_output into kwargs case you need the output from previous subtasks.
@@ -37,6 +35,6 @@ async def task_scrapli(device, **kwargs):
         # you could choose to break out of this task loop here
         # instead of continuing through the remaining subtasks
 
-    await remote_conn.close()
+    await close_connection(device['nc'], connection_type)
 
     return output

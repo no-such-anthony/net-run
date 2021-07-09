@@ -10,7 +10,7 @@ import logging
 logging.getLogger('paramiko.transport').disabled = True
 
 
-def conn_netmiko(device):
+def conn_netmiko(device, connection_key):
 
     ON_CONNECTION_FAIL_TRY_TELNET = False  # Telnet will take 1m 40s to timeout with socket.timeout
     ON_AUTH_FAIL_TRY_ALT_CREDS = False
@@ -21,7 +21,7 @@ def conn_netmiko(device):
     connection = None
     loop_protection = 0
 
-    params = deepcopy(device['netmiko-ssh'])
+    params = deepcopy(device[connection_key])
 
     while not connection:
 

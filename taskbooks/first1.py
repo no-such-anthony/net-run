@@ -1,14 +1,19 @@
 import random
 
 taskbook = {}
-taskbook['primary_task'] = 'task_netmiko.task_netmiko'
-#taskbook['primary_task'] = task_netmiko.task_netmiko  # or this, with the import above
+taskbook['primary_task'] = 'task_default.task_default'
+#taskbook['primary_task'] = task_default.task_default  # or this, with the relevant import above
+
+taskbook['kwargs'] = {}
+taskbook['kwargs']['connection_type'] = 'netmiko'
+taskbook['kwargs']['connection_key'] = 'netmiko-ssh'
+
 
 tasks = [
         {
             'name': 'basic_command',
             'function': 'subtasks_netmiko.basic_command',
-            # or 'function': 'subtasks_netmiko.basic_command', - with the import above
+            # or 'function': subtasks_netmiko.basic_command, - with the relevant import above
             'kwargs': { 'command' : 'show version | i uptime'}
         },
         {
@@ -63,5 +68,7 @@ tasks = [
 
 tasks = [tasks[0],tasks[3]]
 
-taskbook['kwargs'] = {}
 taskbook['kwargs']['tasks'] = tasks
+
+#todo: taskbook filter, subtask filter?
+#todo: different subtask connection?

@@ -12,8 +12,11 @@ There is more work be done with the taskbook idea.
 Example usage for a taskbook using Netmiko SSH with list of subtasks
 - python net-run.py --taskbook first1 --device r1 r3 --role roleA
 
+Example usage for taskbook using Scrapli SSH2 with list of subtasks
+- python net-run.py --taskbook second1 --group group1
+
 Example usage for taskbook using Scrapli asyncssh with list of subtasks
-- python net-run.py --taskbook async1 --device r2 r4 --group group2
+- python net-run.py --taskbook async1 --device r2 r4 --group group1
 
 Example usage for a taskbook with a custom primary_task and no subtasks
 - python net-run.py --taskbook custom1

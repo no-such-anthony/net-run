@@ -17,12 +17,11 @@ tasks = [
             'kwargs': { 'command' : 'show version | i uptime'}
         },
         {
-            'name': 'multiline_command',
-            'function': 'subtasks.netmiko.multiline_command',
+            'name': 'copy_command',
+            'function': 'subtasks.netmiko.copy_command',
             'kwargs': { 
-                    'command' : [['copy running-config tftp://192.168.204.1','Address or name of remote host'],
-                                 ['', 'Destination filename'],
-                                 ['', '#']],
+                    'source': 'running-config',
+                    'destination': 'tftp://192.168.204.1',
                     'ckwargs' : { 'read_timeout': 100 }
                     }
         },
@@ -52,21 +51,13 @@ tasks = [
             'name': 'ping_ips',
             'function': 'subtasks.netmiko.ping_ips',
             'kwargs':  { 'ips':  ['10.0.12.1','10.0.12.2','10.0.1.1'],
-                         'multi_ping':  [ 
-                            ["ping", r"ip"],
-                            ["", r"Target IP address"],
-                            ["{{ip}}", "Repeat count"],
-                            ["5", "Datagram size"],
-                            ["", "Timeout in seconds"],
-                            ["", "Extended"],
-                            ["", "Sweep"],
-                            ["", ""],],
-                         'ckwargs': { 'read_timeout': 100 },
-                                        }
+                         'command': 'ping {{ip}} repeat 5 timeout 1',
+                         'ckwargs': { 'read_timeout': 10},
+                         }
         },
         ]
 
-tasks = [tasks[0],tasks[3]]
+tasks = [tasks[0]]
 
 taskbook['kwargs']['tasks'] = tasks
 

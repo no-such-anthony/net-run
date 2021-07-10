@@ -1,5 +1,5 @@
-from conn_netmiko import conn_netmiko
-from conn_scrapli import conn_scrapli
+from connections.conn_netmiko import conn_netmiko
+from connections.conn_scrapli import conn_scrapli
 
 
 def get_connection(device, connection_type, connection_key):

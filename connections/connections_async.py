@@ -1,4 +1,4 @@
-from conn_scrapli_async import conn_scrapli
+from connections.conn_scrapli_async import conn_scrapli
 
 
 async def get_connection(device, connection_type, connection_key):

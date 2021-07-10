@@ -8,13 +8,13 @@ import argparse
 import sys
 from datetime import datetime
 
-from inventory import get_inventory
-from utils import cl_filter, import_primary_task, import_if_req
-from utils import import_taskbook
-from utils import print_output
+from inventory.inventory import get_inventory
+from utils.utils import cl_filter, import_primary_task, import_if_req
+from utils.utils import import_taskbook
+from utils.utils import print_output
 
-from runners import WithThreadPool
-from runners_async import withSemaphore
+from runners.runners import WithThreadPool
+from runners.runners_async import withSemaphore
 
 
 # Using netmiko 4 devel and async scrapli

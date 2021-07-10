@@ -1,9 +1,9 @@
-from connections_async import get_connection, close_connection
+from connections.connections_async import get_connection, close_connection
 
 #from scrapli.exceptions import ScrapliException
 
 #task_wrapper also comes in handy for handling subtasks
-from runners_async import task_wrapper
+from runners.runners_async import task_wrapper
 
 
 # The primary task

@@ -17,15 +17,6 @@ from runners.runners import WithThreadPool
 from runners.runners_async import withSemaphore
 
 
-# Using netmiko 4 devel and async scrapli
-#
-# pip install git+https://github.com/ktbyers/netmiko.git@develop
-#
-# pip install scrapli
-# pip install asyncssh
-# pip install scrapli_community
-
-
 def main(args):
 
     # load inventory

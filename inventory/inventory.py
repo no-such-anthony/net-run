@@ -76,6 +76,28 @@ hosts = {
             'scrapli-ssh': {
                 'host': 'r6'
             },
+        },
+        'core1': {
+            'ncclient': {
+                'host': '172.16.30.62',
+                'port': 22,
+                'username': 'cisco',
+                'password': 'cisco',
+                'hostkey_verify': False,
+                'device_params' :{'name':'iosxr'},
+
+            },
+        },
+        'core2': {
+            'ncclient': {
+                'host': '172.16.30.58',
+                'port': 22,
+                'username': 'cisco',
+                'password': 'cisco',
+                'hostkey_verify': False,
+                'device_params':{'name':'iosxr'},
+
+            },
         }
         }
 

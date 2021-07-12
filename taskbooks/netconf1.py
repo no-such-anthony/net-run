@@ -18,6 +18,3 @@ tasks = [
 tasks = [tasks[0]]
 taskbook['kwargs']['tasks'] = tasks
 
-
-
-

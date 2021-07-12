@@ -12,8 +12,12 @@ hosts = {
             'scrapli-ssh': {
                 'host': 'r1'
             },
+            'napalm-ssh': {
+                'hostname': 'r1'
+            },
             'groups': ['group1','group3'],
             'roles': ['roleA'],
+            'napalm-driver': 'ios',
         },
         'r2': {
            'netmiko-ssh': {
@@ -26,8 +30,12 @@ hosts = {
             'scrapli-ssh': {
                 'host': 'r2'
             },
+            'napalm-ssh': {
+                'hostname': 'r2'
+            },
             'groups': ['group3','group1'],
             'roles': ['roleB'],
+            'napalm-driver': 'ios',
         },
         'r3': {
             'netmiko-ssh': {
@@ -39,8 +47,12 @@ hosts = {
             'scrapli-ssh': {
                 'host': 'r3'
             },
+            'napalm-ssh': {
+                'hostname': 'r3'
+            },
             'groups': ['group1','group3'],
             'roles': ['roleA'],
+            'napalm-driver': 'ios',
         },
         'r4': {
            'netmiko-ssh': {
@@ -52,8 +64,12 @@ hosts = {
             'scrapli-ssh': {
                 'host': 'r4'
             },
+            'napalm-ssh': {
+                'hostname': 'r4'
+            },
             'groups': ['group3','group1'],
             'roles': ['roleB'],
+            'napalm-driver': 'ios',
         },
         'r5': {
            'netmiko-ssh': {
@@ -65,6 +81,10 @@ hosts = {
             'scrapli-ssh': {
                 'host': 'r5'
             },
+            'napalm-ssh': {
+                'hostname': 'r5'
+            },
+            'napalm-driver': 'ios',
         },
         'r6': {
            'netmiko-ssh': {
@@ -76,6 +96,10 @@ hosts = {
             'scrapli-ssh': {
                 'host': 'r6'
             },
+             'napalm-ssh': {
+                'hostname': 'r6'
+            },
+            'napalm-driver': 'ios',
         },
         'core1': {
             'ncclient': {
@@ -140,6 +164,11 @@ defaults = {
         "transport": "ssh2",
         "auth_strict_key": False,
         "ssh_config_file": '/workspace/vagrant/.ssh/config'
+    },
+    'napalm-ssh': {
+        "username": 'fred',
+        "password": 'bedrock',
+        "optional_args": {}
     },
     'alt_creds': {
         'username': 'fred',

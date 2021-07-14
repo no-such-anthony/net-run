@@ -55,6 +55,13 @@ tasks = [
                     }
         },
         {
+            'name': 'configure_diff_genie',
+            'function': 'subtasks.netmiko.configure_diff_genie',
+            'kwargs':  { 'configuration':  [f"interface lo100",
+                                            f"description random={random.randrange(100, 1000, 3)}"]
+                    }
+        },
+        {
             'name': 'ping_ips',
             'function': 'subtasks.netmiko.ping_ips',
             'kwargs':  { 'ips':  ['10.0.12.1','10.0.12.2','10.0.1.1'],
@@ -64,7 +71,7 @@ tasks = [
         },
         ]
 
-tasks = [tasks[4],tasks[5]]
+tasks = [tasks[4],tasks[5],tasks[6]]
 
 taskbook['kwargs']['tasks'] = tasks
 

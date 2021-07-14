@@ -1,7 +1,8 @@
 import re
-from netutils.config import compliance
+from genie.libs.sdk.apis.utils import compare_config_dicts, get_config_dict
 
-# requires install of netutils
+# requires install of pyats/genie
+
 
 def config_filter_cisco_ios(cfg):
     """Filter unneeded items that change from the config."""
@@ -27,24 +28,27 @@ def config_filter_cisco_ios(cfg):
     return cfg
 
 
-def configure_diff_netutils(device, configuration=None, **kwargs):
+def configure_diff_genie(device, configuration=None, **kwargs):
 
     if configuration:
         # get running pre config
         config_pre = device['nc'].send_command('show run')
-        config_pre = config_filter_cisco_ios(config_pre)
+        config_pre = get_config_dict(config_pre)
 
         # deploy
         result = device['nc'].send_config_set(configuration)
 
         # get running post config
         config_post = device['nc'].send_command('show run')
-        config_post = config_filter_cisco_ios(config_post)
+        config_post = get_config_dict(config_post)
 
         #save?
 
         # diff
-        output = compliance._check_configs_differences(config_pre, config_post, 'cisco_ios')
+        diff = compare_config_dicts(config_pre, config_post)
+
+        # as diff is built from a dict diff you may want to tidy up and remove the trailing : from each line
+        output = re.sub(r":$", "", str(diff), flags=re.M)
 
     else:
         output = 'You need a configuration to deploy for this example.'

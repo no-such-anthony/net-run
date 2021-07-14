@@ -10,7 +10,7 @@ taskbook['kwargs']['connection_key'] = 'ncclient'
 tasks = [
         {
             'name': 'get_config',
-            'function': 'subtasks.ncclient.get_config_command',
+            'function': 'subtasks.ncclient.get_config_command.get_config_command',
             'kwargs': { 'source' : 'running'}
         },
         ]

@@ -10,7 +10,7 @@ taskbook['kwargs']['connection_key'] = 'napalm-ssh'
 tasks = [
         {
             'name': 'basic_command',
-            'function': 'subtasks.napalm.basic_command',
+            'function': 'subtasks.napalm.basic_command.basic_command',
             'kwargs': { 'command' : ['show version | i uptime']}
         },
         ]

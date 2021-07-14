@@ -12,13 +12,13 @@ taskbook['kwargs']['connection_key'] = 'netmiko-ssh'
 tasks = [
         {
             'name': 'basic_command',
-            'function': 'subtasks.netmiko.basic_command',
+            'function': 'subtasks.netmiko.basic_command.basic_command',
             # or 'function': subtasks.netmiko.basic_command, - with the relevant import above
             'kwargs': { 'command' : 'show version | i uptime'}
         },
         {
             'name': 'copy_command',
-            'function': 'subtasks.netmiko.copy_command',
+            'function': 'subtasks.netmiko.copy_command.copy_command',
             'kwargs': { 
                     'source': 'running-config',
                     'destination': 'tftp://192.168.204.1',
@@ -27,14 +27,14 @@ tasks = [
         },
         {
             'name': 'parse_command',
-            'function': 'subtasks.netmiko.basic_command',
+            'function': 'subtasks.netmiko.basic_command.basic_command',
             'kwargs': { 'command' : 'show version',
                         'ckwargs': { 'use_textfsm': True}
                       }
         },
         {
             'name': 'send_config',
-            'function': 'subtasks.netmiko.send_config',
+            'function': 'subtasks.netmiko.send_config.send_config',
             'kwargs': { 
                     'configuration' : ["service timestamps debug datetime msec",
                                         "service timestamps log datetime msec"] 
@@ -42,28 +42,28 @@ tasks = [
         },
         {
             'name': 'configure_diff',
-            'function': 'subtasks.netmiko.configure_diff',
+            'function': 'subtasks.netmiko.configure_diff.configure_diff',
             'kwargs':  { 'configuration':  [f"interface lo100",
                                             f"description random={random.randrange(100, 1000, 3)}"]
                     }
         },
         {
             'name': 'configure_diff_netutils',
-            'function': 'subtasks.netmiko.configure_diff_netutils',
+            'function': 'subtasks.netmiko.configure_diff_netutils.configure_diff_netutils',
             'kwargs':  { 'configuration':  [f"interface lo100",
                                             f"description random={random.randrange(100, 1000, 3)}"]
                     }
         },
         {
             'name': 'configure_diff_genie',
-            'function': 'subtasks.netmiko.configure_diff_genie',
+            'function': 'subtasks.netmiko.configure_diff_genie.configure_diff_genie',
             'kwargs':  { 'configuration':  [f"interface lo100",
                                             f"description random={random.randrange(100, 1000, 3)}"]
                     }
         },
         {
             'name': 'ping_ips',
-            'function': 'subtasks.netmiko.ping_ips',
+            'function': 'subtasks.netmiko.ping_ips.ping_ips',
             'kwargs':  { 'ips':  ['10.0.12.1','10.0.12.2','10.0.1.1'],
                          'command': 'ping {{ip}} repeat 5 timeout 1',
                          'ckwargs': { 'read_timeout': 10},
@@ -71,7 +71,7 @@ tasks = [
         },
         ]
 
-tasks = [tasks[4],tasks[5],tasks[6]]
+#tasks = [tasks[4],tasks[5],tasks[6]]
 
 taskbook['kwargs']['tasks'] = tasks
 

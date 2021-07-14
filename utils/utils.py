@@ -16,12 +16,33 @@ def cl_filter(inventory, args):
     return inventory
 
 
-def import_taskbook(taskbook):
-    taskbook_dict = importlib.import_module(f"taskbooks.{taskbook}").taskbook
-    if not isinstance(taskbook_dict, dict):
+def import_taskbook(t):
+
+    mod = importlib.import_module(f"taskbooks.{t}")
+    taskbook = mod.taskbook
+
+    if not isinstance(taskbook, dict):
         print('Taskbook should be a dictionary.')
         sys.exit()
-    return taskbook_dict
+
+    if 'async' not in taskbook:
+        taskbook['async'] = False
+
+    if 'primary_task' not in taskbook:
+        taskbook['primary_task'] = None
+
+    if isinstance(taskbook['primary_task'], str):
+        taskbook['primary_task'] = import_primary_task(taskbook['primary_task'])
+
+    if not callable(taskbook['primary_task']):
+        print('Primary Task should be a callable.')
+        sys.exit()
+
+    if 'kwargs' in taskbook:
+        if 'tasks' in taskbook['kwargs']:
+            taskbook['kwargs']['tasks'] = import_if_req(taskbook['kwargs']['tasks'])
+
+    return taskbook
 
 
 def import_primary_task(primary_task):
@@ -31,7 +52,6 @@ def import_primary_task(primary_task):
 
 
 def import_if_req(tasks):
-    #todo: need to check if already loaded, if so skip
     for task in tasks:
         if isinstance(task['function'], str):
             p, m = task['function'].rsplit('.', 1)

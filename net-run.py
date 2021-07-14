@@ -9,7 +9,7 @@ import sys
 from datetime import datetime
 
 from inventory.inventory import get_inventory
-from utils.utils import cl_filter, import_primary_task, import_if_req
+from utils.utils import cl_filter
 from utils.utils import import_taskbook
 from utils.utils import print_output
 
@@ -29,23 +29,11 @@ def main(args):
 
     # tasks import
     taskbook = import_taskbook(args.taskbook)
-    use_async = taskbook.pop('async', False)
-
-    primary_task = taskbook.pop('primary_task', None)
-    if isinstance(primary_task, str):
-        primary_task = import_primary_task(primary_task)
-    if not callable(primary_task):
-        print('Primary Task should be a callable.')
-        sys.exit()
-
-    if 'kwargs' in taskbook:
-        if 'tasks' in taskbook['kwargs']:
-            taskbook['kwargs']['tasks'] = import_if_req(taskbook['kwargs']['tasks'])
 
     # start timer
     start_time = datetime.now()
 
-    if use_async:
+    if taskbook['async']:
         # Load task runner
         runner = withSemaphore(10)
 
@@ -54,7 +42,7 @@ def main(args):
         runner = WithThreadPool(10)
 
     # You can also send additional arguments which will be passed to the task        
-    output = runner.run(primary_task, name="Run example tasks", inventory=inventory, **taskbook.get('kwargs',{}))
+    output = runner.run(taskbook['primary_task'], name="Run example tasks", inventory=inventory, **taskbook.get('kwargs',{}))
 
     #stop timer
     elapsed_time = datetime.now() - start_time

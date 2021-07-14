@@ -10,7 +10,7 @@ taskbook['kwargs']['connection_key'] = 'scrapli-ssh'
 tasks = [
         {
             'name': 'basic_command',
-            'function': 'subtasks.scrapli.basic_command',
+            'function': 'subtasks.scrapli.basic_command.basic_command',
             'kwargs': { 'command' : 'show version | i uptime'}
         },
         ]

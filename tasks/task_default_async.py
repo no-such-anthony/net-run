@@ -1,6 +1,4 @@
-from connections.connections_async import get_connection, close_connection
-
-#from scrapli.exceptions import ScrapliException
+from connections.connections_async import connectors
 
 #task_wrapper also comes in handy for handling subtasks
 from runners.runners_async import task_wrapper
@@ -20,7 +18,8 @@ async def task_default(device, **kwargs):
     output = []
 
     # connect to device
-    device['nc'] = await get_connection(device, connection_type, connection_key)
+    connector = connectors[connection_type](device, connection_key)
+    device['nc'] = await connector.connect()
 
     for task in tasks:
         # inject output as run_output into kwargs case you need the output from previous subtasks.
@@ -35,6 +34,7 @@ async def task_default(device, **kwargs):
         # you could choose to break out of this task loop here
         # instead of continuing through the remaining subtasks
 
-    await close_connection(device['nc'], connection_type)
+    #await close_connection(device['nc'], connection_type)
+    await connector.close()
 
     return output

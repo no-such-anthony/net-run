@@ -4,7 +4,7 @@ taskbook['async'] = True
 taskbook['primary_task'] = 'tasks.task_default_async.task_default'
 
 taskbook['kwargs'] = {}
-taskbook['kwargs']['connection_type'] = 'scrapli-async'
+taskbook['kwargs']['connection_type'] = 'scrapli'
 taskbook['kwargs']['connection_key'] = 'scrapli-asyncssh'
 
 tasks = [

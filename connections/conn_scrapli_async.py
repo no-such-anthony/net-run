@@ -1,8 +1,15 @@
 from scrapli import AsyncScrapli
 
-async def conn_scrapli(device, connection_key):
 
-    connection = AsyncScrapli(**device[connection_key])
-    await connection.open()
+class conn_scrapli():
+    def __init__(self, device, connection_key):
+        self.device = device
+        self.connection_key = connection_key
 
-    return connection
+    async def connect(self):
+        self.connection = AsyncScrapli(**self.device[self.connection_key])
+        await self.connection.open()
+        return self.connection
+
+    async def close(self):
+        await self.connection.close()

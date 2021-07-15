@@ -71,7 +71,7 @@ tasks = [
         },
         ]
 
-#tasks = [tasks[4],tasks[5],tasks[6]]
+tasks = [tasks[0]]
 
 taskbook['kwargs']['tasks'] = tasks
 

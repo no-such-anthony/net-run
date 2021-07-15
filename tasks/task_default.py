@@ -1,4 +1,4 @@
-from connections.connections import get_connection, close_connection
+from connections.connections import connectors
 
 #task_wrapper also comes in handy for handling subtasks if you decide to use them
 from runners.runners import task_wrapper
@@ -19,7 +19,8 @@ def task_default(device, **kwargs):
     output = []
 
     # connect to device
-    device['nc'] = get_connection(device, connection_type, connection_key)
+    connector = connectors[connection_type](device, connection_key)
+    device['nc'] = connector.connect()
 
     for task in tasks:
         # inject output as run_output into kwargs case you need the output from previous subtasks.
@@ -34,7 +35,7 @@ def task_default(device, **kwargs):
         # you could choose to break out of this task loop here
         # instead of continuing through the remaining subtasks
 
-    close_connection(device['nc'], connection_type)
+    connector.close()
 
     # if required  you want you can change output to a dict with at least a 'result' key, or str/int,
     # or append another dict with at least 'result' and 'task' keys.

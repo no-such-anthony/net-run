@@ -103,26 +103,14 @@ hosts = {
         },
         'core1': {
             'ncclient': {
-                'host': '172.16.30.62',
+                'host': 'sbx-iosxr-mgmt.cisco.com',
                 'port': 22,
-                'username': 'cisco',
-                'password': 'cisco',
+                'username': 'admin',
+                'password': 'C1sco12345',
                 'hostkey_verify': False,
                 'device_params' :{'name':'iosxr'},
-
             },
         },
-        'core2': {
-            'ncclient': {
-                'host': '172.16.30.58',
-                'port': 22,
-                'username': 'cisco',
-                'password': 'cisco',
-                'hostkey_verify': False,
-                'device_params':{'name':'iosxr'},
-
-            },
-        }
         }
 
 

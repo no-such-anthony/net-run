@@ -1,8 +1,15 @@
 from scrapli import Scrapli
 
-def conn_scrapli(device, connection_key):
 
-    connection = Scrapli(**device[connection_key])
-    connection.open()
+class conn_scrapli():
+    def __init__(self, device, connection_key):
+        self.device = device
+        self.connection_key = connection_key
 
-    return connection
+    def connect(self):
+        self.connection = Scrapli(**self.device[self.connection_key])
+        self.connection.open()
+        return self.connection
+
+    def close(self):
+        self.connection.close()

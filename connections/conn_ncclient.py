@@ -1,7 +1,14 @@
 from ncclient import manager
 
-def conn_ncclient(device, connection_key):
+    
+class conn_ncclient():
+    def __init__(self, device, connection_key):
+        self.device = device
+        self.connection_key = connection_key
 
-    connection = manager.connect(**device[connection_key])
+    def connect(self):
+        self.connection = manager.connect(**self.device[self.connection_key])
+        return self.connection
 
-    return connection
+    def close(self):
+        self.connection.close_session()

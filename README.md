@@ -28,6 +28,12 @@ Example usage for taskbook using ncclient with list of subtasks
 Example usage for a taskbook with a custom primary_task and no subtasks
 - python net-run.py --taskbook custom1
 
+Example usage for a taskbook with a custom primary_task with subtasks
+- python net-run.py --taskbook custom2
+
+Example usage for a taskbook with a custom restconf task
+- python net-run.py --taskbook restconf1
+
 To install Netmiko 4
 - pip install git+https://github.com/ktbyers/netmiko.git@develop
 

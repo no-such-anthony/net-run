@@ -23,7 +23,7 @@ Example usage for taskbook using Napalm with list of subtasks
 - python net-run.py --taskbook napalm1 --group group1
 
 Example usage for taskbook using ncclient with list of subtasks
-- python net-run.py --taskbook netconf1 --device core1 core2
+- python net-run.py --taskbook netconf1 --device core1
 
 Example usage for a taskbook with a custom primary_task and no subtasks
 - python net-run.py --taskbook custom1
@@ -32,7 +32,7 @@ Example usage for a taskbook with a custom primary_task with subtasks
 - python net-run.py --taskbook custom2
 
 Example usage for a taskbook with a custom restconf task
-- python net-run.py --taskbook restconf1
+- python net-run.py --taskbook restconf1 --device core2
 
 To install Netmiko 4
 - pip install git+https://github.com/ktbyers/netmiko.git@develop

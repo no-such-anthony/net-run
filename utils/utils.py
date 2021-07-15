@@ -78,7 +78,7 @@ def print_output(output):
                     print('-'*len(r['task']))
                     print(r['task'])
                     print('-'*len(r['task']))
-                    print(r['result'])
+                    pprint(r['result'])
                     print()
             elif isinstance(result['result'], dict):
                 print(result['result']['result']) # definitely needs improvement!

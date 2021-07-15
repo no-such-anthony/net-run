@@ -1,5 +1,11 @@
 import re
+
+# Using python stnandard library
 import difflib
+# Using netuils library
+from netutils.config import compliance
+# Using PyATS/Genie library
+from genie.libs.sdk.apis.utils import compare_config_dicts, get_config_dict
 
 
 def config_filter_cisco_ios(cfg):
@@ -33,7 +39,6 @@ def configure_diff(device, configuration=None, **kwargs):
 
         config_pre = device['nc'].send_command('show run')
         config_pre = config_filter_cisco_ios(config_pre)
-        config_pre = config_pre.split('\n')
 
         # deploy
         result = device['nc'].send_config_set(configuration)
@@ -41,12 +46,23 @@ def configure_diff(device, configuration=None, **kwargs):
         # get running config as dict
         config_post = device['nc'].send_command('show run')
         config_post = config_filter_cisco_ios(config_post)
-        config_post = config_post.split('\n')
 
         #save?
 
         # diff
-        output = '\n'.join(difflib.context_diff(config_pre, config_post))
+        output = {}
+
+        output['difflib'] = '\n'.join(difflib.context_diff(config_pre.split('\n'), config_post.split('\n')))
+
+        # diff with netutils
+        output['netutils'] = compliance._check_configs_differences(config_pre, config_post, 'cisco_ios')
+
+        # diff with PyATS/Genie
+        # in this case you probably also skip "config_filter_cisco_ios" as similar functionality should be builtin
+        # as diff is built from a dict diff you may want to tidy up and remove the trailing : from each line
+        diff = compare_config_dicts(get_config_dict(config_pre), get_config_dict(config_post))
+        output['genie'] = re.sub(r":$", "", str(diff), flags=re.M)
+
 
     else:
         output = 'You need a configuration to deploy for this example.'

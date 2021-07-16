@@ -11,14 +11,26 @@ logging.getLogger('paramiko.transport').disabled = True
 
 
 class conn_netmiko():
+
     def __init__(self, device, connection_key):
         self.device = device
         self.connection_key = connection_key
         self.connection = None
 
+        #check for required kwargs, grab root level key if not in connection_key
+        #could have some default values?
+        if 'host' not in device[connection_key]:
+            device[connection_key]['host'] = device.get('host', device['name'])
+        if 'username' not in device[connection_key]:
+            device[connection_key]['username'] = device.get('username', '')
+        if 'password' not in device[connection_key]:
+            device[connection_key]['password'] = device.get('password', '')
+        if 'device_type' not in device[connection_key]:
+            device[connection_key]['device_type'] = device.get('platform', '')
+
     def connect(self):
         ON_CONNECTION_FAIL_TRY_TELNET = False  # Telnet will take 1m 40s to timeout with socket.timeout
-        ON_AUTH_FAIL_TRY_ALT_CREDS = False
+        ON_AUTH_FAIL_TRY_ALT_CREDS = True
         RETRIES_BEFORE_ALT_ATTEMPTS = 0
 
         MAX_LOOP = 1 + RETRIES_BEFORE_ALT_ATTEMPTS + ON_CONNECTION_FAIL_TRY_TELNET + ON_AUTH_FAIL_TRY_ALT_CREDS
@@ -27,6 +39,7 @@ class conn_netmiko():
         loop_protection = 0
 
         device = self.device
+
         params = deepcopy(device[self.connection_key])
 
         while not connection:

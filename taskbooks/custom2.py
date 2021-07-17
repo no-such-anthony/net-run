@@ -1,3 +1,23 @@
+print('importing...')
+
+tasks = [
+        {
+            'name': 'print_hello',
+            'function': 'print_hello.print_hello',
+            'kwargs': { }
+        },
+        {
+            'name': 'print_hello',
+            'function': 'custom2.print_hello2',
+            'kwargs': { }
+        },
+        ]
+
+
+def print_hello2():
+    print('this hello')
+
+
 def custom2(device, **kwargs):
 
     tasks = kwargs.pop('tasks', [])
@@ -13,22 +33,9 @@ def custom2(device, **kwargs):
 
 # need at least a primary_task pointing to a callable function
 taskbook = {}
-taskbook['primary_task'] = 'taskbooks.custom2.custom2'
+taskbook['primary_task'] = 'custom2.custom2'
+taskbook['append_paths'] = ['subtasks/custom/']
 
 # add some tasks
 taskbook['kwargs'] = {}
-
-tasks = [
-        {
-            'name': 'print_hello',
-            'function': 'subtasks.custom.print_hello.print_hello',
-            'kwargs': { }
-        },
-        {
-            'name': 'print_hello',
-            'function': 'subtasks.custom.print_hello.print_hello',
-            'kwargs': { }
-        },
-        ]
-
 taskbook['kwargs']['tasks'] = tasks

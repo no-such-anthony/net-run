@@ -1,6 +1,8 @@
 import importlib
+from pathlib import Path
 import sys
 from pprint import pprint
+
 
 def cl_filter(inventory, args):
     # filter devices with any command-line arguments used
@@ -16,14 +18,38 @@ def cl_filter(inventory, args):
     return inventory
 
 
+def import_primary_task(primary_task):
+    p, m = primary_task.rsplit('.', 1)
+    mod = importlib.import_module(p)
+    return getattr(mod, m)
+
+
+def import_if_req(tasks):
+    for task in tasks:
+        if isinstance(task['function'], str):
+            p, m = task['function'].rsplit('.', 1)
+            mod = importlib.import_module(p)
+            task['function'] = getattr(mod, m)
+        if not callable(task['function']):
+            print('Subtasks in the task list should be callables.')
+            sys.exit()
+    return tasks
+
+
 def import_taskbook(t):
 
-    mod = importlib.import_module(f"taskbooks.{t}")
-    taskbook = mod.taskbook
+    sys.path.append(str(Path(t).parent.absolute()))
+    name = Path(t).stem
+    mod = importlib.import_module(name)
+    taskbook = getattr(mod, 'taskbook', None)
 
     if not isinstance(taskbook, dict):
         print('Taskbook should be a dictionary.')
         sys.exit()
+
+    if 'append_paths' in taskbook:
+        for p in taskbook['append_paths']:
+            sys.path.append(str(Path(p).resolve()))
 
     if 'async' not in taskbook:
         taskbook['async'] = False
@@ -43,24 +69,6 @@ def import_taskbook(t):
             taskbook['kwargs']['tasks'] = import_if_req(taskbook['kwargs']['tasks'])
 
     return taskbook
-
-
-def import_primary_task(primary_task):
-    p, m = primary_task.rsplit('.', 1)
-    mod = importlib.import_module(p)
-    return getattr(mod, m)
-
-
-def import_if_req(tasks):
-    for task in tasks:
-        if isinstance(task['function'], str):
-            p, m = task['function'].rsplit('.', 1)
-            mod = importlib.import_module(p)
-            task['function'] = getattr(mod, m)
-        if not callable(task['function']):
-            print('Subtasks in the task list should be callables.')
-            sys.exit()
-    return tasks
 
 
 def print_output(output):

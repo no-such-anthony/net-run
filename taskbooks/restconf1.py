@@ -12,8 +12,6 @@ def bytesAsJSON(bytes):
 
 def restconf1(device):
 
-    print(device['name'])
-
     response = requests.get(
                     url = f"https://{device['restconf']['host']}/restconf/data/Cisco-IOS-XE-native:native/interface/GigabitEthernet=1",
                     auth = (device['restconf']['username'], device['restconf']['password']),
@@ -31,4 +29,4 @@ def restconf1(device):
 
 # taskbook dictionary needs at least a primary_task pointing to a callable function
 taskbook = {}
-taskbook['primary_task'] = 'taskbooks.restconf1.restconf1'
+taskbook['primary_task'] = 'restconf1.restconf1'

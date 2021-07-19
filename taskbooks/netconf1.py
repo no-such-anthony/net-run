@@ -1,7 +1,7 @@
 tasks = [
         {
             'name': 'get_config',
-            'function': 'get_config_command.get_config_command',
+            'function': 'ncclient_get_config.ncclient_get_config',
             'kwargs': { 'source' : 'running'}
         },
         ]
@@ -9,7 +9,7 @@ tasks = [
 tasks = [tasks[0]]
 
 taskbook = {}
-taskbook['append_paths'] = ['subtasks/ncclient/','tasks/']
+taskbook['append_paths'] = ['subtasks/with_ncclient/','tasks/']
 taskbook['primary_task'] = 'task_default.task_default'
 
 taskbook['kwargs'] = {}

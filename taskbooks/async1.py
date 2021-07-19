@@ -1,7 +1,7 @@
 tasks = [
         {
-            'name': 'basic_command',
-            'function': 'basic_command.basic_command',
+            'name': 'A simple command',
+            'function': 'scrapli_command.scrapli_command',
             'kwargs': { 'command' : 'show version | i uptime'}
         },
 
@@ -11,7 +11,7 @@ tasks = [tasks[0]]
 
 taskbook = {}
 taskbook['async'] = True
-taskbook['append_paths'] = ['subtasks/scrapli_async/','tasks/']
+taskbook['append_paths'] = ['subtasks/with_scrapli_async/','tasks/']
 taskbook['primary_task'] = 'task_default_async.task_default'
 
 taskbook['kwargs'] = {}

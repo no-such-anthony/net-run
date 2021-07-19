@@ -1,4 +1,4 @@
-def ping_ips(device, ips=[], command='ping {{ip}}', ckwargs={}, **kwargs):
+def netmiko_ping_ips(device, ips=[], command='ping {{ip}}', ckwargs={}, **kwargs):
 
     output = ''
     for ip in ips:

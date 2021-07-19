@@ -1,4 +1,4 @@
-def send_config(device, configuration=None, **kwargs):
+def netmiko_config(device, configuration=None, **kwargs):
 
     if configuration:
         output = device['nc'].send_config_set(configuration)

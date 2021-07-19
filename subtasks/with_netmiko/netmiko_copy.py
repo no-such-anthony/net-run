@@ -1,4 +1,4 @@
-def copy_command(device, source='', destination='', ckwargs={}, **kwargs):
+def netmiko_copy(device, source='', destination='', ckwargs={}, **kwargs):
 
     # Example of a copy subtask
 

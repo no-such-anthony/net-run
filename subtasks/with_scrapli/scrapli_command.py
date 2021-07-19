@@ -1,4 +1,4 @@
-def basic_command(device, command=None, ckwargs={}, **kwargs):
+def scrapli_command(device, command=None, ckwargs={}, **kwargs):
 
     if command:
         output = device['nc'].send_command(command, **ckwargs)

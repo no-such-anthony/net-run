@@ -32,7 +32,7 @@ def config_filter_cisco_ios(cfg):
     return cfg
 
 
-def configure_diff(device, configuration=None, **kwargs):
+def netmiko_config_diffs(device, configuration=None, **kwargs):
 
     if configuration:
         # get running config as dict

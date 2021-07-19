@@ -50,6 +50,7 @@ def import_taskbook(t):
     if 'append_paths' in taskbook:
         for p in taskbook['append_paths']:
             sys.path.append(str(Path(p).resolve()))
+        #print(sys.path)
 
     if 'async' not in taskbook:
         taskbook['async'] = False

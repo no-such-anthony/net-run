@@ -1,4 +1,4 @@
-def basic_command(device, command=None, ckwargs={}, **kwargs):
+def napalm_command(device, command=None, ckwargs={}, **kwargs):
 
     if command:
         output = device['nc'].cli(command, **ckwargs)

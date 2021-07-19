@@ -12,8 +12,10 @@ tasks = [
 tasks = [tasks[0]]
 
 taskbook = {}
+taskbook['name'] = "Testing with Scrapli!"
 taskbook['append_paths'] = ['subtasks/with_scrapli/','tasks/']
 taskbook['primary_task'] = 'task_default.task_default'
+
 
 taskbook['kwargs'] = {}
 taskbook['kwargs']['connection_type'] = 'scrapli'

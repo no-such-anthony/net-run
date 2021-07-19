@@ -22,6 +22,7 @@ def custom1(device, **kwargs):
 taskbook = {}
 
 # need at least a primary_task pointing to a callable function
+taskbook['name'] = "Custom, example 1!"
 taskbook['primary_task'] = custom1
 
 taskbook['kwargs'] = {}

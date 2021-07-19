@@ -33,6 +33,7 @@ def custom2(device, **kwargs):
 
 # need at least a primary_task pointing to a callable function
 taskbook = {}
+taskbook['name'] = "Custom, example 1!"
 taskbook['primary_task'] = 'custom2.custom2'
 taskbook['append_paths'] = ['subtasks/custom/']
 

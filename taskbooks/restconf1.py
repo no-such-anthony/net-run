@@ -29,4 +29,5 @@ def restconf1(device):
 
 # taskbook dictionary needs at least a primary_task pointing to a callable function
 taskbook = {}
+taskbook['name'] = "Testing with restconf from a custom primary task!"
 taskbook['primary_task'] = 'restconf1.restconf1'

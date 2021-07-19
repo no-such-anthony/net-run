@@ -26,6 +26,10 @@ def import_primary_task(primary_task):
 
 def import_if_req(tasks):
     for task in tasks:
+
+        # inject name into kwargs?
+        task['kwargs']['name'] = task['name']
+
         if isinstance(task['function'], str):
             p, m = task['function'].rsplit('.', 1)
             mod = importlib.import_module(p)
@@ -74,6 +78,7 @@ def import_taskbook(t):
 
 def print_output(output):
 
+    #pprint(output)
     # Print task results
     print(f"Task = {output['task']}")
 

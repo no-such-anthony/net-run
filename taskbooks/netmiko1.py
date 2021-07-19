@@ -56,6 +56,7 @@ tasks = [
 #tasks = [tasks[0]]
 
 taskbook = {}
+taskbook['name'] = "Testing with Netmiko!"
 taskbook['append_paths'] = ['subtasks/with_netmiko/','tasks/']
 taskbook['primary_task'] = 'task_default.task_default'
 

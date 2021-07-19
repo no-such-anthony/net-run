@@ -6,9 +6,10 @@ def task_wrapper(**kwargs):
 
     task = kwargs.pop('task', None)
     device = kwargs.pop('device', None)
+    task_name = kwargs.pop('name', None)
     result = {}
     result['device'] = device['name']
-    result['task'] = task.__name__
+    result['task'] = task_name or task.__name__
 
     try:
         result['result'] = task(device, **kwargs)

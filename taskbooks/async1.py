@@ -10,6 +10,7 @@ tasks = [
 tasks = [tasks[0]]
 
 taskbook = {}
+taskbook['name'] = "Testing with Scrapli Async!"
 taskbook['async'] = True
 taskbook['append_paths'] = ['subtasks/with_scrapli_async/','tasks/']
 taskbook['primary_task'] = 'task_default_async.task_default'

@@ -3,6 +3,8 @@ from pathlib import Path
 import sys
 from pprint import pprint
 
+from runners.runners import runners
+
 
 def cl_filter(inventory, args):
     # filter devices with any command-line arguments used
@@ -72,6 +74,11 @@ def import_taskbook(t):
     if 'kwargs' in taskbook:
         if 'tasks' in taskbook['kwargs']:
             taskbook['kwargs']['tasks'] = import_if_req(taskbook['kwargs']['tasks'])
+
+    # Pick task runner
+    run_mode = taskbook.get('run_mode','default')
+    num_workers = taskbook.get('num_workers', 20)
+    taskbook['runner'] = runners[run_mode](num_workers)
 
     return taskbook
 

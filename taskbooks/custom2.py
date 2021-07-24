@@ -36,6 +36,7 @@ taskbook = {}
 taskbook['name'] = "Custom, example 1!"
 taskbook['primary_task'] = 'custom2.custom2'
 taskbook['append_paths'] = ['subtasks/custom/']
+taskbook['run_mode'] = 'serial'
 
 # add some tasks
 taskbook['kwargs'] = {}

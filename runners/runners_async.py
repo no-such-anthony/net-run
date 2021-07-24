@@ -5,7 +5,7 @@ import asyncio
 # got the semaphore idea from https://asyncpyneng.readthedocs.io/ru/latest/book/using_asyncio/semaphore.html
 
 
-class withSemaphore(object):
+class WithSemaphore(object):
     def __init__(self, num_workers: int = 20) -> None:
         self.num_workers = num_workers
 

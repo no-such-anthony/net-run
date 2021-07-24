@@ -13,9 +13,6 @@ from utils.utils import cl_filter
 from utils.utils import import_taskbook
 from utils.utils import print_output
 
-from runners.runners import WithThreadPool
-from runners.runners_async import withSemaphore
-
 
 def main(args):
 
@@ -33,16 +30,11 @@ def main(args):
     # start timer
     start_time = datetime.now()
 
-    if taskbook['async']:
-        # Load task runner
-        runner = withSemaphore(10)
-
-    else:
-        # Load task runner
-        runner = WithThreadPool(10)
-
-    # You can also send additional arguments which will be passed to the task        
-    output = runner.run(taskbook['primary_task'], name=taskbook.get('name', None), inventory=inventory, **taskbook.get('kwargs',{}))
+    # You can also send additional arguments which will be passed to the task   
+    output = taskbook['runner'].run(taskbook['primary_task'], 
+                                    name=taskbook.get('name', None),
+                                    inventory=inventory, 
+                                    **taskbook.get('kwargs',{}))
 
     #stop timer
     elapsed_time = datetime.now() - start_time

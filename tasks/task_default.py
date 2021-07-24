@@ -1,7 +1,7 @@
 from connections.connections import connectors
 
 #task_wrapper also comes in handy for handling subtasks if you decide to use them
-from runners.runners import task_wrapper
+from runners.runners_base import task_wrapper
 
 
 # The primary task

@@ -11,39 +11,39 @@ from datetime import datetime
 from inventory.inventory import get_inventory
 from utils.utils import cl_filter
 from utils.utils import import_taskbook
-from utils.utils import print_output
 
 
 def main(args):
 
+    # tasks import
+    taskbook = import_taskbook(args.taskbook)
+
     # load inventory
-    inventory = get_inventory()
-    #pprint(inventory)
+    taskbook['inventory'] = get_inventory()
+    #pprint(taskbook['inventory'])
     #sys.exit()
     
     # command line filtering
-    inventory = cl_filter(inventory, args)
-
-    # tasks import
-    taskbook = import_taskbook(args.taskbook)
+    taskbook['inventory'] = cl_filter(taskbook['inventory'], args)
+    #pprint(taskbook['inventory'])
+    #sys.exit()
 
     # start timer
     start_time = datetime.now()
 
     # You can also send additional arguments which will be passed to the task   
-    output = taskbook['runner'].run(taskbook['primary_task'], 
+    taskbook['output'] = taskbook['runner'].run(taskbook['primary_task'], 
                                     name=taskbook.get('name', None),
-                                    inventory=inventory, 
+                                    inventory=taskbook['inventory'], 
                                     **taskbook.get('kwargs',{}))
 
     #stop timer
-    elapsed_time = datetime.now() - start_time
+    taskbook['elapsed_time'] = datetime.now() - start_time
 
-    # Print task results 
-    print_output(output)
+    # Post Jobs 
+    for job in taskbook['post_jobs']:
+        job(taskbook)
 
-    print('-'*50)
-    print("Elapsed time: {}".format(elapsed_time))
 
 
 if __name__ == "__main__":

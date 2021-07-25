@@ -6,11 +6,21 @@ A micro Nornir/Ansible like automation poc tool.
 - The tasks in a taskbook are similar to Ansible Playbook but in a Python dict.
 - Connection methods (but not limited to): Netmiko 4, Scrapli, Napalm, ncclient.
 
-As this is just a proof of concept example there is no docco or unit testing.  
+As this is just a proof of concept that is still evolving there is no docco or unit testing.  
 
-There is more work be done with the taskbook concept, filtering, and how to present the output.  The general idea being a taskbook contains the primary task (mandatory), the subtask list, connection_method/connection_key (eg netmiko, napalm, etc), run_mode (async, threads (default), serial), num_workers.  The tasks/subtasks that are here are just simple examples for code verification.
+There is more work be done with the taskbook concept, filtering, inventory, and how to present the output.  Maybe a litte crazy but have found myself pushing everything into the taskbook dict, including inventory and output.
 
-Taskbook argument is a file location, of which the parent directory is automatically appended to sys.path.  Any directories in taskbook['append_paths'] will also be appended to sys.path.
+The general idea being a taskbook contains
+- the primary task (mandatory), 
+- the subtask list, 
+- connection_method/connection_key (eg netmiko, napalm, etc), 
+- run_mode (async, threads (default), serial), num_workers,
+- append_paths list, append these to sys.path,
+- post_jobs list, default jobs postjob.print_elapsed and postjob.print_output
+
+The tasks/subtasks that are here are just simple examples for code verification.
+
+Taskbook argument is a file location, of which the parent directory is automatically appended to sys.path.  
 
 Example usage for a taskbook using Netmiko 4 SSH with list of subtasks
 - python net-run.py --taskbook taskbooks/netmiko1.py --device r1 r3 --role roleA

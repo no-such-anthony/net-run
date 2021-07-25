@@ -15,15 +15,15 @@ tasks = [
 
 
 def print_hello2():
-    print('this hello')
+    print('another hello, this time from inside the taskbook.')
 
 
 def custom2(device, **kwargs):
 
     tasks = kwargs.pop('tasks', [])
 
+    print('device = ', device['name'])
     for task in tasks:
-        print('device = ', device['name'])
         task['function']()
 
     # return either a dictionary with at least a 'result' key/value pair, or simply a string/integer
@@ -35,8 +35,9 @@ def custom2(device, **kwargs):
 taskbook = {}
 taskbook['name'] = "Custom, example 1!"
 taskbook['primary_task'] = 'custom2.custom2'
-taskbook['append_paths'] = ['subtasks/custom/']
+taskbook['append_paths'] = ['subtasks/custom','postjobs']
 taskbook['run_mode'] = 'serial'
+taskbook['post_jobs'] = ['postjobs.print_elapsed']
 
 # add some tasks
 taskbook['kwargs'] = {}

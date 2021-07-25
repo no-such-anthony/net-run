@@ -41,6 +41,19 @@ def import_if_req(tasks):
             sys.exit()
     return tasks
 
+def import_post_jobs(post_jobs):
+    temp = []
+    for job in post_jobs:
+        if isinstance(job, str):
+            p, m = job.rsplit('.', 1)
+            mod = importlib.import_module(p)
+            j = getattr(mod, m)
+        if not callable(j):
+            print('Subtasks in the task list should be callables.')
+            sys.exit()
+        temp.append(j)
+    return temp
+
 
 def import_taskbook(t):
 
@@ -56,7 +69,9 @@ def import_taskbook(t):
     if 'append_paths' in taskbook:
         for p in taskbook['append_paths']:
             sys.path.append(str(Path(p).resolve()))
-        #print(sys.path)
+
+    sys.path.append(str(Path('postjobs').resolve()))
+    #print(sys.path)
 
     if 'async' not in taskbook:
         taskbook['async'] = False
@@ -80,32 +95,10 @@ def import_taskbook(t):
     num_workers = taskbook.get('num_workers', 20)
     taskbook['runner'] = runners[run_mode](num_workers)
 
+    # Post jobs, with default jobs if none selected.
+    taskbook['post_jobs'] = import_post_jobs(taskbook.get('post_jobs',['postjobs.print_elapsed','postjobs.print_output']))
+
+
     return taskbook
 
-
-def print_output(output):
-
-    #pprint(output)
-    # Print task results
-    print(f"Task = {output['task']}")
-
-    for result in sorted(output['devices'], key=lambda k: k['device']):
-        print('='*20,f"Results for {result['device']}",'='*20)
-        if 'exception' not in result:
-            # if no exception in main loop we should have a dictionary or a list of dictionaries
-            # each containing a 'result'
-            if isinstance(result['result'], list):
-                for r in result['result']:
-                    print('-'*len(r['task']))
-                    print(r['task'])
-                    print('-'*len(r['task']))
-                    pprint(r['result'])
-                    print()
-            elif isinstance(result['result'], dict):
-                print(result['result']['result']) # definitely needs improvement!
-            else:
-                print(result['result'])    
-        else:
-            print(result['result'])
-    print()
 
